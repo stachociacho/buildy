@@ -84,16 +84,10 @@
 <body>
   <header>Albion Online Build Manager</header>
 
-  <div class="build-form">
-    <input type="text" id="buildName" placeholder="Build Name" />
-    <input type="text" id="itemList" placeholder="Items (comma-separated, use / for swaps)" />
-    <button onclick="addBuild()">Add Build</button>
-  </div>
 
   <div class="container" id="buildContainer">
     <!-- Example builds can remain or you can remove them -->
   </div>
-
   <script>
     function addBuild() {
       const name = document.getElementById('buildName').value.trim();
@@ -157,7 +151,7 @@
 
     // Example of adding a build on page load programmatically
     window.onload = () => {
-      addBuildByData('Main Tank', [
+      addBuildByData('(main)Main Tank', [
         'Soldier Helmet/Guardian Helmet/Knight helmet',
         'Any Armor',
         'Hunter Shoes',
@@ -165,26 +159,72 @@
         'Leering Cane/mist caller'
       ]);
 
-      addBuildByData('Main Heal', [
+      addBuildByData('(MAIN)Main Heal', [
         'Graveguard Helmet/Druid cowl',
         'Royal Robe',
         'Cultist Sandals',
         'Ironroot/redemption or fallen'
       ]);
-      addBuildByData('Silence', [
+      addBuildByData('(MAIN)Silence', [
         'Assasin Hood/Guardian helmet/Knight helmet',
         'Guardian armor',
         'Hunter shoes',
-        '1h Arcane/BMS'
+        '1h Arcane/BMS',
+        'Leering cane 8.3'
       ]);
-      addBuildByData('off tank', [
+      addBuildByData('(MAIN)off tank', [
         'Soldier helmet/assasin hood',
         'any armor/royal jacket',
         'Cultist sandals',
-        'Incubus mace 600+ aggro/redemption or fallen'
+        'Incubus mace 600+ aggro/redemption or fallen',
+        'Astral aegis',
       ]);
-    
-    
+      addBuildByData('(MAIN)GA', [
+        'assasin hood/Knight helmet',
+        'royal jacket/Guardian armor',
+        'any shoes',
+        'Great arcane/Enigmatic/BMS'
+      ]);
+      addBuildByData('(MAIN)Ironroot', [
+        'assasin hood/Knight helmet/Guardian helmet/Druid cowl',
+        'royal jacket',
+        'any shoes',
+        'Ironroot/fallen',
+        'Miscaller',
+      ]);
+      addBuildByData('(DPS)SC', [
+        'assasin hood/Druid cowl',
+        'Druid robe',
+        'any shoes',
+        'Shadow caller/rot caller',
+        'Crypt candle'
+      ]);
+      addBuildByData('(DPS)LC', [
+        'assasin hood/Druid cowl',
+        'Druid robe',
+        'any shoes',
+        'Light caller'
+      ]);
+      addBuildByData('(DPS)Blazing', [
+        'assasin hood/Druid cowl',
+        'Druid robe',
+        'any shoes',
+        'Blazing staff'
+      ]);
+      addBuildByData('(DPS)frost', [
+        'Royal cowl',
+        'Druid robe',
+        'Royal sandals',
+        'Chillhowl/Wildfire',
+        'Crypt candle'
+      ]);
+      addBuildByData('(DPS)Crystal reaper', [
+        'Royal cowl',
+        'Druid robe',
+        'Royal sandals',
+        'Crystal reaper',
+        'Crypt candle'
+      ]);
     };
   </script>
 </body>
