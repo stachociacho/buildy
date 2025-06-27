@@ -1,75 +1,97 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>10 man by stachociacho</title>
   <style>
+    :root {
+      --primary: #1abc9c;
+      --bg: #1e2a38;
+      --card: #253446;
+      --header: #14202e;
+      --item: #34495e;
+      --form: #2e3b4f;
+      --text: #ffffff;
+      --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+    }
     body {
-      background-color: #1e2a38;
-      font-family: Arial, sans-serif;
-      color: #fff;
+      background-color: var(--bg);
+      font-family: var(--font);
+      color: var(--text);
       margin: 0;
       padding: 0;
+      line-height: 1.5;
     }
     header {
-      background: #14202e;
-      padding: 20px;
+      background: var(--header);
+      padding: 30px 20px;
       text-align: center;
-      font-size: 2em;
+      font-size: 2.2em;
       font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      letter-spacing: 1px;
     }
     .container {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
-      padding: 20px;
+      padding: 30px 20px;
+      max-width: 1400px;
+      margin: auto;
     }
     .build {
-      background-color: #253446;
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0 0 10px #0005;
+      background-color: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .build:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
     }
     .build h2 {
-      margin-top: 0;
+      margin: 0 0 10px;
+      font-size: 1.4em;
+      border-bottom: 1px solid #3a4d63;
+      padding-bottom: 5px;
     }
     .items {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      margin-top: 10px;
     }
     .item {
-      background-color: #34495e;
-      border-radius: 8px;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-    }
-    .build-form {
-      margin: 20px;
-      padding: 20px;
-      background-color: #2e3b4f;
-      border-radius: 12px;
-    }
-    .build-form input, .build-form button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 8px;
-      border: none;
-    }
-    .build-form input {
-      width: 200px;
-    }
-    .build-form button {
-      background-color: #1abc9c;
-      color: #fff;
-      cursor: pointer;
-    }
+  background-color: var(--item);
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 0.95em;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+  width: 180px; /* Fixed width */
+  min-height: 40px; /* Ensures consistent height */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  justify-content: space-between;
+}
 
-    /* Swap button styles */
+    .item img {
+      margin-right: 8px;
+      width: 32px;
+      height: 32px;
+      image-rendering: pixelated;
+      object-fit: contain;
+    }
     .swap-btn {
       margin-left: 8px;
-      background-color: #1abc9c;
+      background-color: var(--primary);
       border: none;
       color: white;
       border-radius: 4px;
@@ -77,7 +99,46 @@
       font-size: 0.8em;
       padding: 2px 6px;
       user-select: none;
-      flex-shrink: 0;
+      transition: background-color 0.2s ease;
+    }
+    .swap-btn:hover {
+      background-color: #16a085;
+    }
+    .build-form {
+      background-color: var(--form);
+      margin: 30px auto 0;
+      padding: 20px;
+      max-width: 800px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+    .build-form input, .build-form button {
+      padding: 12px;
+      margin: 8px 10px 8px 0;
+      border-radius: 10px;
+      border: none;
+      font-size: 1em;
+    }
+    .build-form input {
+      width: 250px;
+    }
+    .build-form button {
+      background-color: var(--primary);
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .build-form button:hover {
+      background-color: #16a085;
+    }
+    @media (max-width: 500px) {
+      .build-form input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .build-form {
+        padding: 15px;
+      }
     }
   </style>
 </head>
@@ -85,153 +146,151 @@
   <header>10 man by stachociacho</header>
 
 
-  <div class="container" id="buildContainer">
-    <!-- Example builds can remain or you can remove them -->
-  </div>
+  <div class="container" id="buildContainer"></div>
+
   <script>
     function addBuild() {
       const name = document.getElementById('buildName').value.trim();
       const rawItems = document.getElementById('itemList').value.trim().split(',');
-
+  
       if (!name || rawItems.length === 0 || rawItems[0] === "") return;
-
+  
       addBuildByData(name, rawItems);
-
-      // Clear inputs
+  
       document.getElementById('buildName').value = '';
       document.getElementById('itemList').value = '';
     }
-
+  
     function addBuildByData(name, itemsArray) {
       if (!name || itemsArray.length === 0) return;
-
+  
       const buildDiv = document.createElement('div');
       buildDiv.className = 'build';
-
+  
       const title = document.createElement('h2');
       title.textContent = name;
       buildDiv.appendChild(title);
-
+  
       const itemContainer = document.createElement('div');
       itemContainer.className = 'items';
-
+  
       itemsArray.forEach(rawItem => {
         const swapOptions = rawItem.split('/').map(s => s.trim()).filter(Boolean);
         if (swapOptions.length === 0) return;
-
+  
         let currentIndex = 0;
-
+  
         const itemDiv = document.createElement('div');
         itemDiv.className = 'item';
-
-        // Show first option
-        itemDiv.textContent = swapOptions[currentIndex];
-
+  
+        const span = document.createElement('span');
+        span.textContent = swapOptions[currentIndex];
+  
+        itemDiv.appendChild(span);
+  
         if (swapOptions.length > 1) {
           const swapBtn = document.createElement('button');
           swapBtn.className = 'swap-btn';
           swapBtn.textContent = '⇄';
           swapBtn.title = 'Swap item';
-
+  
           swapBtn.onclick = () => {
             currentIndex = (currentIndex + 1) % swapOptions.length;
-            itemDiv.textContent = swapOptions[currentIndex];
-            itemDiv.appendChild(swapBtn);
+            span.textContent = swapOptions[currentIndex];
           };
-
+  
           itemDiv.appendChild(swapBtn);
         }
-
+  
         itemContainer.appendChild(itemDiv);
       });
-
+  
       buildDiv.appendChild(itemContainer);
       document.getElementById('buildContainer').appendChild(buildDiv);
     }
-
-    // Example of adding a build on page load programmatically
+  
     window.onload = () => {
       addBuildByData('(main)Main Tank', [
-        'Soldier Helmet/Guardian Helmet/Knight helmet',
+        'Soldier Helmet/Guardian Helmet/Knight Helmet',
         'Any Armor',
         'Hunter Shoes',
         '1h Hammer/Incubus Mace',
-        'Leering Cane/mist caller'
+        'Leering Cane/Mist Caller'
       ]);
-
       addBuildByData('(MAIN)Main Heal', [
-        'Graveguard Helmet/Druid cowl',
+        'Graveguard Helmet/Druid Cowl',
         'Royal Robe',
         'Cultist Sandals',
-        'Ironroot/redemption or fallen'
+        'Ironroot/Redemption or Fallen'
       ]);
       addBuildByData('(MAIN)Silence', [
-        'Assasin Hood/Guardian helmet/Knight helmet',
-        'Guardian armor',
-        'Hunter shoes',
+        'Assasin Hood/Guardian Helmet/Knight Helmet',
+        'Guardian Armor',
+        'Hunter Shoes',
         '1h Arcane/BMS',
-        'Leering cane 8.3'
+        'Leering Cane'
       ]);
       addBuildByData('(MAIN)off tank', [
-        'Soldier helmet/assasin hood',
-        'any armor/royal jacket',
-        'Cultist sandals',
-        'Incubus mace 600+ aggro/redemption or fallen',
-        'Astral aegis',
+        'Soldier Helmet/Assasin Hood',
+        'Any Armor/Royal Jacket',
+        'Cultist Sandals',
+        'Incubus Mace 600+ aggro/Redemption or Fallen',
+        'Astral Aegis'
       ]);
       addBuildByData('(MAIN)GA', [
-        'assasin hood/Knight helmet',
-        'royal jacket/Guardian armor',
-        'any shoes',
-        'Great arcane/Enigmatic/BMS'
+        'Assasin Hood/Knight Helmet',
+        'Royal Jacket/Guardian Armor',
+        'Any Shoes',
+        'Great Arcane/Enigmatic/BMS'
       ]);
       addBuildByData('(MAIN)Ironroot', [
-        'assasin hood/Knight helmet/Guardian helmet/Druid cowl',
-        'royal jacket',
-        'any shoes',
-        'Ironroot/fallen',
-        'Miscaller',
+        'Assasin Hood/Knight Helmet/Guardian Helmet/Druid Cowl',
+        'Royal Jacket',
+        'Any Shoes',
+        'Ironroot/Fallen',
+        'Miscaller'
       ]);
       addBuildByData('(DPS)SC', [
-        'assasin hood/Druid cowl',
-        'Druid robe',
-        'any shoes',
-        'Shadow caller/rot caller',
-        'Crypt candle'
+        'Assasin Hood/Druid Cowl',
+        'Druid Robe',
+        'Any Shoes',
+        'Shadow Caller/Rot Caller',
+        'Crypt Candle'
       ]);
       addBuildByData('(DPS)LC', [
-        'assasin hood/Druid cowl',
-        'Druid robe',
-        'any shoes',
-        'Light caller'
+        'Assasin Hood/Druid Cowl',
+        'Druid Robe',
+        'Any Shoes',
+        'Light Caller'
       ]);
       addBuildByData('(DPS)Blazing', [
-        'assasin hood/Druid cowl',
-        'Druid robe',
-        'any shoes',
-        'Blazing staff'
+        'Assasin Hood/Druid Cowl',
+        'Druid Robe',
+        'Any Shoes',
+        'Blazing Staff'
       ]);
-      addBuildByData('(DPS)frost', [
-        'Royal cowl',
-        'Druid robe',
-        'Royal sandals',
+      addBuildByData('(DPS)Frost', [
+        'Royal Cowl',
+        'Druid Robe',
+        'Royal Sandals',
         'Chillhowl/Wildfire',
-        'Crypt candle'
+        'Crypt Candle'
       ]);
-      addBuildByData('(DPS)Crystal reaper', [
-        'Royal cowl',
-        'Druid robe',
-        'Royal sandals',
-        'Crystal reaper'
+      addBuildByData('(DPS)Crystal Reaper', [
+        'Royal Cowl',
+        'Druid Robe',
+        'Royal Sandals',
+        'Crystal Reaper'
       ]);
-      addBuildByData('spierdalanie', [
-        'soldier helmet/specter hood',
-        'Assasin jakcet',
-        'miner boots/solder boots/royal sandals',
-        'Double balded/blood letter',
-        'any Shield/Taproot/scepenter'
-      ]);    
-  };
+      addBuildByData('Spierdalanie', [
+        'Soldier Helmet/Specter Hood',
+        'Assasin Jacket',
+        'Miner Boots/Soldier Boots/Royal Sandals',
+        'Double Bladed/Blood Letter',
+        'Any Shield/Taproot/Scepenter'
+      ]);
+    };
   </script>
+  
 </body>
 </html>
